@@ -155,4 +155,4 @@ public class Tutor {
     public BigDecimal getWalletBalance() { return walletBalance; }
     public void setWalletBalance(BigDecimal walletBalance) { this.walletBalance = walletBalance; }
 }
-}
+

@@ -1,0 +1,6 @@
+package com.project.tutorplatform.dto.enums;
+
+public enum DayOfWeek {
+	MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+
+}
