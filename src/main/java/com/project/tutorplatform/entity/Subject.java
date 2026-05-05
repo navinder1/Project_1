@@ -1,6 +1,6 @@
 package com.project.tutorplatform.entity;
 
-import com.project.tutorplatform.dto.enums.SubjectCategory;
+import com.project.tutorplatform.enums.SubjectCategory;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

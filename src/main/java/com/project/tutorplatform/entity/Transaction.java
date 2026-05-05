@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.project.tutorplatform.dto.enums.TransactionType;
+import com.project.tutorplatform.enums.TransactionType;
 
 @Entity
 @Table(name = "transactions")

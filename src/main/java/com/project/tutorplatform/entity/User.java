@@ -6,7 +6,7 @@ import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.nimbusds.oauth2.sdk.Role;
+//import com.nimbusds.oauth2.sdk.Role;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

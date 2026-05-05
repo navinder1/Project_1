@@ -3,7 +3,7 @@ package com.project.tutorplatform.entity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
-import com.project.tutorplatform.dto.enums.SubscriptionPlan;
+import com.project.tutorplatform.enums.SubscriptionPlan;
 
 @Entity
 @Table(name = "subscriptions")

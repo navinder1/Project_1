@@ -4,9 +4,7 @@ package com.project.tutorplatform.entity;
 
 import java.util.Set;
 
-import com.nimbusds.oauth2.sdk.id.Subject;
-import com.nimbusds.oauth2.sdk.rar.Location;
-import com.project.tutorplatform.dto.enums.TeachingMode;
+import com.project.tutorplatform.enums.TeachingMode;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

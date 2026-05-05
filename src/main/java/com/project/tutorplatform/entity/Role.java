@@ -1,7 +1,7 @@
 package com.project.tutorplatform.entity;
 
 
-import com.project.tutorplatform.dto.enums.RoleName;
+import com.project.tutorplatform.enums.RoleName;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

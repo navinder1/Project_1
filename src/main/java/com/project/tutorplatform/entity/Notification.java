@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.project.tutorplatform.dto.enums.NotificationChannel;
-import com.project.tutorplatform.dto.enums.NotificationType;
+import com.project.tutorplatform.enums.NotificationChannel;
+import com.project.tutorplatform.enums.NotificationType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.project.tutorplatform.dto.enums.PaymentStatus;
+import com.project.tutorplatform.enums.PaymentStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

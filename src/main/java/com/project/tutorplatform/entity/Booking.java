@@ -10,10 +10,9 @@ import java.time.LocalTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.nimbusds.oauth2.sdk.id.Subject;
-import com.project.tutorplatform.dto.enums.BookingStatus;
-import com.project.tutorplatform.dto.enums.TeachingMode;
-import com.twilio.rest.api.v2010.account.call.Payment;
+import com.project.tutorplatform.enums.BookingStatus;
+import com.project.tutorplatform.enums.TeachingMode;
+//import com.twilio.rest.api.v2010.account.call.Payment;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

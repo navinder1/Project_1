@@ -3,7 +3,7 @@ package com.project.tutorplatform.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-import com.project.tutorplatform.dto.enums.FilePurpose;
+import com.project.tutorplatform.enums.FilePurpose;
 
 @Entity
 @Table(name = "file_metadata")
