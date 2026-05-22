@@ -1,5 +1,7 @@
 package com.project.tutorplatform.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +22,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     @Transactional
     @Query("UPDATE Notification n SET n.isRead = true WHERE n.user.id = :userId")
     void markAllReadByUserId(@Param("userId") Long userId);
+
+	List<Notification> findBySentAtIsNull();
 }

@@ -67,5 +67,12 @@ public class TutorResponse {
     public void setSubscriptionPlan(SubscriptionPlan subscriptionPlan) { this.subscriptionPlan = subscriptionPlan; }
 
     public BigDecimal getWalletBalance() { return walletBalance; }
-    public void setWalletBalance(BigDecimal walletBalance) { this.walletBalance = walletBalance; }
+    public void setWalletBalance(BigDecimal walletBalance) { this.walletBalance = walletBalance; 
+    }
+	public void setEmail(String email) {
+		
+	}
+	public void setSubjects(Set<String> subjects) {
+		
+	}
 }

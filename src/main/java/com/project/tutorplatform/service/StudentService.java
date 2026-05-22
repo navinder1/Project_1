@@ -4,6 +4,7 @@ import java.util.List;
 
 import java.util.Set;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import com.project.tutorplatform.entity.Location;
@@ -86,5 +87,13 @@ public class StudentService {
 
 	public List<Student> getAll() {
 		return studentRepository.findAll();
+	}
+
+	public @Nullable Object getAllStudents() {
+		return null;
+	}
+
+	public @Nullable Object getStudentById(Long id) {
+		return null;
 	}
 }

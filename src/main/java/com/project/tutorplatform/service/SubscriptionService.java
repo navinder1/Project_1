@@ -2,6 +2,7 @@ package com.project.tutorplatform.service;
 
 import java.time.LocalDate;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import com.project.tutorplatform.entity.Subscription;
@@ -72,4 +73,8 @@ public class SubscriptionService {
             }
         });
     }
+
+	public @Nullable Object createSubscription(Long tutorId, String plan) {
+		return null;
+	}
 }

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import com.project.tutorplatform.dto.request.PaymentRequest;
@@ -116,4 +117,12 @@ public class PaymentService {
 
         return res;
     }
+
+	public @Nullable Object createPayment(PaymentRequest request) {
+		return null;
+	}
+
+	public @Nullable Object getPayment(Long id) {
+		return null;
+	}
 }

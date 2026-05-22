@@ -37,5 +37,15 @@ public class StudentResponse {
     public void setParentPhone(String parentPhone) { this.parentPhone = parentPhone; }
 
     public Integer getTotalBookings() { return totalBookings; }
-    public void setTotalBookings(Integer totalBookings) { this.totalBookings = totalBookings; }
+    public void setTotalBookings(Integer totalBookings) { this.totalBookings = totalBookings; 
+    }
+	public void setEmail(String email) {	
+	}
+	public void setPhoneNumber(String phoneNumber) {
+	}
+	public void setIsActive(Boolean isActive) {
+	}
+	public void setIsVerified(Boolean isVerified) {
+	}
+    
 }

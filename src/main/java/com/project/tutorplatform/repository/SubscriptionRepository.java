@@ -1,5 +1,6 @@
 package com.project.tutorplatform.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,6 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
 	Optional<Tutor> findByTutorIdAndIsActiveTrue(Long tutorId);
 
 	void deactivateAllByTutorId(Long tutorId);
+
+	List<Subscription> findByIsActiveTrue();
 }

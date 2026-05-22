@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
+import com.project.tutorplatform.entity.User;
 
 @Service
 public class PushNotificationService {
@@ -29,4 +30,7 @@ public class PushNotificationService {
             throw new RuntimeException("Push notification failed");
         }
     }
+
+	public void sendNotification(User user, String title, String message) {
+	}
 }

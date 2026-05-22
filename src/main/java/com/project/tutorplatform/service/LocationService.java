@@ -2,8 +2,10 @@ package com.project.tutorplatform.service;
 
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
+import com.project.tutorplatform.dto.request.LocationRequest;
 import com.project.tutorplatform.entity.Location;
 import com.project.tutorplatform.exception.ResourceNotFoundException;
 import com.project.tutorplatform.repository.LocationRepository;
@@ -34,4 +36,8 @@ public class LocationService {
         Location loc = getById(id);
         locationRepository.delete(loc);
     }
+
+	public @Nullable Object saveLocation(LocationRequest request) {
+		return null;
+	}
 }

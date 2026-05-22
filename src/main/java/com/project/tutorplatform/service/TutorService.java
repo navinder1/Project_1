@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -143,4 +144,16 @@ public class TutorService {
 
         tutorRepository.save(tutor);
     }
+
+	public @Nullable Object getAllTutors() {
+		return null;
+	}
+
+	public @Nullable Object getTutorById(Long id) {
+		return null;
+	}
+
+	public @Nullable Object getTutorsBySubject(Long subjectId) {
+		return null;
+	}
 }

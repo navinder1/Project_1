@@ -38,4 +38,8 @@ public class LocationResponse {
 
     public String getFormattedAddress() { return formattedAddress; }
     public void setFormattedAddress(String formattedAddress) { this.formattedAddress = formattedAddress; }
+	public void setId(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
 }

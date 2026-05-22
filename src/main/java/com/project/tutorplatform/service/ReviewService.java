@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.project.tutorplatform.dto.request.ReviewRequest;
 import com.project.tutorplatform.entity.Booking;
 import com.project.tutorplatform.entity.Review;
 import com.project.tutorplatform.entity.Student;
@@ -90,4 +91,7 @@ public class ReviewService {
         Review review = getById(id);
         reviewRepository.delete(review);
     }
+
+	public void createReview(ReviewRequest request) {		
+	}
 }

@@ -3,8 +3,10 @@ package com.project.tutorplatform.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
+import com.project.tutorplatform.dto.request.TrackingRequest;
 import com.project.tutorplatform.entity.Booking;
 import com.project.tutorplatform.entity.Tracking;
 import com.project.tutorplatform.entity.Tutor;
@@ -72,4 +74,12 @@ public class TrackingService {
 
         trackingRepository.deleteByRecordedAtBefore(threshold);
     }
+
+	public @Nullable Object saveLocation(TrackingRequest request) {
+		return null;
+	}
+
+	public @Nullable Object getBookingTracking(Long bookingId) {
+		return null;
+	}
 }

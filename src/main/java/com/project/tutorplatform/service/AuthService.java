@@ -6,7 +6,9 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.UUID;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,9 @@ import com.project.tutorplatform.dto.request.LoginRequest;
 import com.project.tutorplatform.dto.request.RegisterRequest;
 import com.project.tutorplatform.dto.response.AuthResponse;
 import com.project.tutorplatform.entity.Role;
-import com.project.tutorplatform.entity.User;
 import com.project.tutorplatform.repository.RoleRepository;
 import com.project.tutorplatform.repository.UserRepository;
+import com.project.tutorplatform.security.JwtTokenProvider;
 
 @Service
 public class AuthService {
@@ -24,22 +26,24 @@ public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, String> redisTemplate;
 
     public AuthService(UserRepository userRepository,
                        RoleRepository roleRepository,
                        PasswordEncoder passwordEncoder,
-                       JwtService jwtService,
+                       JwtTokenProvider jwtTokenProvider,
                        RedisTemplate<String, String> redisTemplate) {
+
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
+        this.jwtTokenProvider = jwtTokenProvider;
         this.redisTemplate = redisTemplate;
     }
 
     public AuthResponse register(RegisterRequest req) {
+
         if (userRepository.existsByEmail(req.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
@@ -51,112 +55,145 @@ public class AuthService {
         Role role = roleRepository.findByName("USER")
                 .orElseThrow(() -> new RuntimeException("Role not found"));
 
-        User user = new User();
-        user.setUsername(req.getUsername());
-        user.setEmail(req.getEmail());
-        user.setPhoneNumber(req.getPhoneNumber());
-        user.setFullName(req.getFullName());
-        user.setPassword(passwordEncoder.encode(req.getPassword()));
-        user.setIsActive(true);
-        user.setIsVerified(false);
-        user.setRoles(Collections.singleton(role));
+        com.project.tutorplatform.entity.User appUser =
+                new com.project.tutorplatform.entity.User();
 
-        userRepository.save(user);
+        appUser.setUsername(req.getUsername());
+        appUser.setEmail(req.getEmail());
+        appUser.setPhoneNumber(req.getPhoneNumber());
+        appUser.setFullName(req.getFullName());
+        appUser.setPassword(passwordEncoder.encode(req.getPassword()));
+        appUser.setIsActive(true);
+        appUser.setIsVerified(false);
+        appUser.setRoles(Collections.singleton(role));
 
-        String token = jwtService.generateToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
+        userRepository.save(appUser);
+
+        User securityUser = new User(
+                appUser.getEmail(),
+                appUser.getPassword(),
+                Collections.emptyList()
+        );
+
+        String token =
+                jwtTokenProvider.generateToken(securityUser);
+
+        String refreshToken =
+                jwtTokenProvider.generateRefreshToken(securityUser);
 
         return new AuthResponse(token, refreshToken);
     }
 
     public AuthResponse login(LoginRequest req) {
-        User user = userRepository.findByEmail(req.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
+        com.project.tutorplatform.entity.User appUser =
+                userRepository.findByEmail(req.getEmail())
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
+
+        if (!passwordEncoder.matches(
+                req.getPassword(),
+                appUser.getPassword())) {
+
             throw new RuntimeException("Invalid credentials");
         }
 
-        if (!user.getIsActive()) {
+        if (!appUser.getIsActive()) {
             throw new RuntimeException("User inactive");
         }
 
-        user.setLastLoginAt(LocalDateTime.now());
-        userRepository.save(user);
+        appUser.setLastLoginAt(LocalDateTime.now());
 
-        String token = jwtService.generateToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
+        userRepository.save(appUser);
+
+        User securityUser = new User(
+                appUser.getEmail(),
+                appUser.getPassword(),
+                Collections.emptyList()
+        );
+
+        String token =
+                jwtTokenProvider.generateToken(securityUser);
+
+        String refreshToken =
+                jwtTokenProvider.generateRefreshToken(securityUser);
 
         return new AuthResponse(token, refreshToken);
     }
 
-    public AuthResponse refreshToken(String refreshToken) {
-        String username = jwtService.extractUsername(refreshToken);
-
-        User user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (!jwtService.validateToken(refreshToken, user)) {
-            throw new RuntimeException("Invalid refresh token");
-        }
-
-        String newToken = jwtService.generateToken(user);
-        String newRefresh = jwtService.generateRefreshToken(user);
-
-        return new AuthResponse(newToken, newRefresh);
-    }
-
     public void sendOtp(String identifier) {
-        String otp = String.valueOf(100000 + new Random().nextInt(900000));
-        redisTemplate.opsForValue().set("OTP:" + identifier, otp, Duration.ofMinutes(10));
+
+        String otp =
+                String.valueOf(100000 + new Random().nextInt(900000));
+
+        redisTemplate.opsForValue().set(
+                "OTP:" + identifier,
+                otp,
+                Duration.ofMinutes(10)
+        );
     }
 
     public boolean verifyOtp(String identifier, String otp) {
-        String key = "OTP:" + identifier;
-        String stored = redisTemplate.opsForValue().get(key);
+
+        String stored =
+                redisTemplate.opsForValue().get("OTP:" + identifier);
 
         if (stored != null && stored.equals(otp)) {
-            redisTemplate.delete(key);
 
-            userRepository.findByEmail(identifier).ifPresent(user -> {
-                user.setIsVerified(true);
-                userRepository.save(user);
-            });
+            redisTemplate.delete("OTP:" + identifier);
 
             return true;
         }
+
         return false;
     }
 
     public void forgotPassword(String email) {
+
         userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
 
         String token = UUID.randomUUID().toString();
-        redisTemplate.opsForValue().set("RESET:" + token, email, Duration.ofMinutes(15));
+
+        redisTemplate.opsForValue().set(
+                "RESET:" + token,
+                email,
+                Duration.ofMinutes(15)
+        );
     }
 
     public void resetPassword(String token, String newPassword) {
-        String email = redisTemplate.opsForValue().get("RESET:" + token);
+
+        String email =
+                redisTemplate.opsForValue().get("RESET:" + token);
 
         if (email == null) {
-            throw new RuntimeException("Invalid or expired token");
+            throw new RuntimeException("Invalid token");
         }
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        com.project.tutorplatform.entity.User user =
+                userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
 
         user.setPassword(passwordEncoder.encode(newPassword));
+
         userRepository.save(user);
 
         redisTemplate.delete("RESET:" + token);
     }
 
     public void logout(String token) {
-        String jti = jwtService.extractJti(token);
-        long expiry = jwtService.getRemainingValidity(token);
 
-        redisTemplate.opsForValue()
-                .set("BLACKLIST:" + jti, "true", Duration.ofMillis(expiry));
+        redisTemplate.opsForValue().set(
+                "BLACKLIST:" + token,
+                "true",
+                Duration.ofDays(1)
+        );
     }
+
+	public @Nullable Object refreshToken(String refreshToken) {
+		return null;
+	}
 }

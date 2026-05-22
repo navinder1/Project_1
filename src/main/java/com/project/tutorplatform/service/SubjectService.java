@@ -2,6 +2,7 @@ package com.project.tutorplatform.service;
 
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import com.project.tutorplatform.entity.Subject;
@@ -68,4 +69,12 @@ public class SubjectService {
         Subject subject = getById(id);
         subjectRepository.delete(subject);
     }
+
+	public @Nullable Object getAllSubjects() {
+		return null;
+	}
+
+	public @Nullable Object getSubjectById(Long id) {
+		return null;
+	}
 }

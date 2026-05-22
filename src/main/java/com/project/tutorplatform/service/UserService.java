@@ -2,6 +2,7 @@ package com.project.tutorplatform.service;
 
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -77,4 +78,12 @@ public class UserService {
     public List<User> getAll() {
         return userRepository.findAll();
     }
+
+	public @Nullable Object getAllUsers() {
+		return null;
+	}
+
+	public @Nullable Object getUserById(Long id) {
+		return null;
+	}
 }

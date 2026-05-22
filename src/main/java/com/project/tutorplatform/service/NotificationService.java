@@ -2,6 +2,7 @@ package com.project.tutorplatform.service;
 
 import java.time.LocalDateTime;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -93,4 +94,11 @@ public class NotificationService {
     public void markAllAsRead(Long userId) {
         notificationRepository.markAllReadByUserId(userId);
     }
+
+	public @Nullable Object getUserNotifications(Long userId) {
+		return null;
+	}
+
+	public void createNotification(User user, String string, String string2) {
+	}
 }

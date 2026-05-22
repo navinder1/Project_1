@@ -1,6 +1,6 @@
 package com.project.tutorplatform.config;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 
 import org.springframework.context.annotation.Configuration;
 
@@ -15,9 +15,16 @@ public class FirebaseConfig {
 
     @PostConstruct
     public void init() {
+
         try {
-            FileInputStream serviceAccount =
-                    new FileInputStream("firebase-service-account.json");
+
+            InputStream serviceAccount =
+                    getClass().getClassLoader()
+                    .getResourceAsStream("firebase-service-account.json");
+
+            if (serviceAccount == null) {
+                throw new RuntimeException("Firebase JSON file not found");
+            }
 
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
@@ -27,8 +34,10 @@ public class FirebaseConfig {
                 FirebaseApp.initializeApp(options);
             }
 
+            System.out.println("Firebase Initialized Successfully");
+
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }
